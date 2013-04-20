@@ -12,6 +12,7 @@
 namespace HWI\Bundle\OAuthBundle\Security\Core\User;
 
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
+use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 
 /**
  * Represents a class that loads UserInterface objects for a given oauth response.
@@ -29,5 +30,5 @@ interface OAuthAwareUserProviderInterface
      *
      * @throws UsernameNotFoundException if the user is not found
      */
-    public function loadUserByOAuthUserResponse(UserResponseInterface $response);
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response,OAuthToken $token);
 }

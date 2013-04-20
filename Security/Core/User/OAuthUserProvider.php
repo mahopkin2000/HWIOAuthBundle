@@ -13,7 +13,8 @@ namespace HWI\Bundle\OAuthBundle\Security\Core\User;
 
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface,
     HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser,
-    HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
+    HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface,
+    HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 
 use Symfony\Component\Security\Core\User\UserProviderInterface,
     Symfony\Component\Security\Core\User\UserInterface,
@@ -37,7 +38,7 @@ class OAuthUserProvider implements UserProviderInterface, OAuthAwareUserProvider
     /**
      * {@inheritdoc}
      */
-    public function loadUserByOAuthUserResponse(UserResponseInterface $response)
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response,OAuthToken $token)
     {
         return $this->loadUserByUsername($response->getUsername());
     }

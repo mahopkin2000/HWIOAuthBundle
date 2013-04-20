@@ -18,6 +18,7 @@ use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken,
 
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface,
     Symfony\Component\Security\Core\User\UserCheckerInterface,
+    Symfony\Component\Security\Core\User\UserInterface,
     Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -68,12 +69,15 @@ class OAuthProvider implements AuthenticationProviderInterface
      */
     public function authenticate(TokenInterface $token)
     {
+	if ($token->getUser() instanceof UserInterface) {
+		return $token;
+	}
         $resourceOwner = $this->resourceOwnerMap->getResourceOwnerByName($token->getResourceOwnerName());
 
         $userResponse = $resourceOwner->getUserInformation($token->getAccessToken());
 
         try {
-            $user = $this->userProvider->loadUserByOAuthUserResponse($userResponse);
+            $user = $this->userProvider->loadUserByOAuthUserResponse($userResponse,$token);
         } catch (OAuthAwareExceptionInterface $e) {
             $e->setAccessToken($token->getAccessToken());
             $e->setResourceOwnerName($token->getResourceOwnerName());

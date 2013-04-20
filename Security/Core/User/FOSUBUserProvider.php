@@ -15,7 +15,8 @@ use FOS\UserBundle\Model\UserManagerInterface;
 
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface,
     HWI\Bundle\OAuthBundle\Security\Core\Exception\AccountNotLinkedException,
-    HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
+    HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface,
+    HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 
 /**
  * Class providing a bridge to use the FOSUB user provider with HWIOAuth.
@@ -52,7 +53,7 @@ class FOSUBUserProvider implements OAuthAwareUserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadUserByOAuthUserResponse(UserResponseInterface $response)
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response,OAuthToken $token)
     {
         $username = $response->getUsername();
         $user = $this->userManager->findUserBy(array($this->getProperty($response) => $username));
