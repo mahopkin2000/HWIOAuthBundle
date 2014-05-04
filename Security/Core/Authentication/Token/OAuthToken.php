@@ -49,7 +49,8 @@ class OAuthToken extends AbstractToken
     {
         parent::__construct($roles);
 
-        if (is_array($accessToken)) {
+        if (	(is_array($accessToken)) &&
+		(isset($accessToken['access_token']))	) {
             $this->accessToken = $accessToken['access_token'];
             if (isset($accessToken['refresh_token'])) {
                 $this->refreshToken = $accessToken['refresh_token'];
